@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>familyapp</title>
+  
+  <!-- الخطوط: Caveat للخط المشبك، و Tajawal/SF Pro للواجهة -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- ربط ملف التصميم المستقل -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="beige">
+
+  <!-- 1. شاشة الترحيب (Splash Screen) -->
+  <div id="splash-screen">
+    <div class="hello-text">hello</div>
+    <div class="app-icon">
+      <span class="icon-f">f</span>
+    </div>
+    <div class="app-title">familyapp</div>
+  </div>
+
+  <!-- 2. الهيدر الرئيسي -->
+  <header class="app-header">
+    <div class="logo-area">
+      <span class="header-title">familyapp</span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" onclick="toggleTheme()" title="تغيير المظهر">🎨</button>
+      <button class="icon-btn" onclick="toggleLanguage()" id="lang-btn">EN</button>
+    </div>
+  </header>
+
+  <!-- 3. حاوية الصفحات (تتغير حسب التنسيق) -->
+  <main id="main-content">
+    
+    <!-- قسم الشات -->
+    <section id="chat-section" class="app-section active-section">
+      <div id="chat-messages-container" class="messages-list">
+        <!-- الرسائل بتنزل هون بملف chat.js -->
+      </div>
+    </section>
+
+    <!-- قسم التصويت اليومي -->
+    <section id="voting-section" class="app-section">
+      <div class="voting-card">
+        <h3 id="voting-title">🍴 تصويت وجبة اليوم</h3>
+        <p class="voting-sub" id="voting-sub">اختر وجبتك المفضل اليوم:</p>
+        <div id="voting-options-container" class="options-list">
+          <!-- الخيارات الـ 5 بتنزل هون بملف voting.js -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 4. القائمة السفلية للتنقل -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" onclick="switchTab('chat')">
+      <span class="nav-icon">💬</span>
+      <span class="nav-label" data-ar="المحادثات" data-en="Chats">المحادثات</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab('voting')">
+      <span class="nav-icon">🗳️</span>
+      <span class="nav-label" data-ar="التصويت" data-en="Voting">التصويت</span>
+    </button>
+    <button class="nav-btn" onclick="startCall()">
+      <span class="nav-icon">📞</span>
+      <span class="nav-label" data-ar="مكالمة" data-en="Call">مكالمة</span>
+    </button>
+  </nav>
+
+  <!-- ربط ملفات الجافاسكريبت المفرزة لكل ميزة -->
+  <script src="auth.js"></script>
+  <script src="chat.js"></script>
+  <script src="voting.js"></script>
+  <script src="calls.js"></script>
+  
+  <script>
+    // إخفاء شاشة الترحيب تلقائياً بعد 2.5 ثانية
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.classList.add('fade-out');
+        setTimeout(() => splash.style.display = 'none', 600);
+      }, 2500);
+    });
+
+    // التنقل بين الأقسام
+    function switchTab(tab) {
+      document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active-section'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      
+      if(tab === 'chat') {
+        document.getElementById('chat-section').classList.add('active-section');
+        event.currentTarget.classList.add('active');
+      } else if(tab === 'voting') {
+        document.getElementById('voting-section').classList.add('active-section');
+        event.currentTarget.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
